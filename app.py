@@ -3,8 +3,8 @@ from tavily import TavilyClient
 import requests
 from fpdf import FPDF
 
-# API KEY
-TAVILY_API_KEY = "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"
+# API KEY (HIDDEN FOR SECURITY & PRIVACY PURPOSES)
+TAVILY_API_KEY = "THE KEY GOES HERE"
 
 # --- PDF GENERATION CLASS ---
 class PDF(FPDF):
@@ -114,3 +114,4 @@ if st.button("Start Research") and topic:
         except Exception as e:
 
             st.error(f"Connection failed: {e}")
+
