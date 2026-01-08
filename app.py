@@ -95,14 +95,14 @@ if st.button("Start Research") and topic:
                 report_content = ollama_response.json()["response"]
                 
                 # --- DISPLAY REPORT ---
-                st.subheader("📝 Research Report")
+                st.subheader("Research Report")
                 st.markdown(report_content)
                 
                 # --- PDF EXPORT BUTTON ---
                 pdf_data = create_pdf(topic, report_content, source_urls)
                 
                 st.download_button(
-                    label="📄 Download Report as PDF",
+                    label="Download Report as PDF",
                     data=pdf_data,
                     file_name=f"research_report.pdf",
                     mime="application/pdf"
@@ -114,4 +114,5 @@ if st.button("Start Research") and topic:
         except Exception as e:
 
             st.error(f"Connection failed: {e}")
+
 
