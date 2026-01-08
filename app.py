@@ -3,7 +3,7 @@ from tavily import TavilyClient
 import requests
 from fpdf import FPDF
 
-# --- CONFIGURATION ---
+# API KEY
 TAVILY_API_KEY = "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"
 
 # --- PDF GENERATION CLASS ---
@@ -112,4 +112,5 @@ if st.button("Start Research") and topic:
                 st.error(f"Ollama Error: {ollama_response.text}")
 
         except Exception as e:
+
             st.error(f"Connection failed: {e}")
