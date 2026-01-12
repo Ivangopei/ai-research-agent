@@ -9,7 +9,7 @@ A local-first AI Agent that automates market research. It creates a privacy-pres
 * **Resource Optimization:** Optimized for consumer hardware using quantized 3B parameter models (Llama 3.2) and context trimming.
 
 ## Tech Stack
-* **Python 3.10+**
+* **Python 3.11**
 * **Streamlit** 
 * **Ollama**
 * **Tavily API**
@@ -21,3 +21,4 @@ A local-first AI Agent that automates market research. It creates a privacy-pres
    ```bash
 
    git clone [https://github.com/YOUR_USERNAME/private-research-agent.git](https://github.com/YOUR_USERNAME/private-research-agent.git)
+
