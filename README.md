@@ -11,14 +11,14 @@ This project is an AI agent made to automate market research while keeping data 
 * **Resource Optimization:** Optimized for consumer hardware using quantized 3B parameter models (Llama 3.2) and context trimming.
 
 ## Tech Stack
-* **Python 3.11** 
-* **Streamlit** 
-* **Llama 3.2**
-* **Tavily API**
-* **FPDF**
+* **Python 3.11** - for glueing the code.
+* **Streamlit** - for interactive dashboard.
+* **Llama 3.2** - local AI.
+* **Tavily API** - generated my own API key.
+* **FPDF** - for PDF generation.
 
 ## How to Run
-**NOTE:** You will need Ollama and the llama3.2 model installed to be able to run this app.
+**NOTE:** You will need to install Ollama and the llama3.2 to be able to run this app.
 1. **Clone the repo**
    ```bash
 
@@ -40,3 +40,4 @@ Open app.py in IDE and find the line where the API key goes. Replace the "PASTE 
     ```bash
 
     streamlit run app.py
+
