@@ -1,8 +1,13 @@
 # Private AI Research Agent
 
-Always wondered how you search something on Google and then this exact topic appears in one of your FYP videos on TikTok? The reason is simple, you are being tracked no matter what and where you search any information. This **Private** AI Research Agent solved my problem, and will solve many other people's data privacy issues. 
+Always wondered how you search something on Google and then this exact topic appears in one of your FYP videos on TikTok?
 
-This project is an AI agent made to automate market research while keeping data private. I built this to solve a specific problem: A local-first AI Agent that automates market research. It creates a privacy-preserving pipeline by integrating the **Tavily Search API** with a locally hosted **Llama 3.2** model.
+The reason is simple, you are being tracked no matter what and where you search any information. This **Private** AI Research Agent solved my problem, and will solve many other people's data privacy issues once I deploy this app for people to use for free.
+
+## Why I Built This?
+As a CS student I am very interested in how AI operates under the hood. Particularly, I’ve always been curious about applications where an AI isn't just a chatbot, but a very useful tool for whatever purpose.
+
+Working on this project helped me understand how eyes are given to AI through search API and how to handle data between different services.
 
 ## Features
 * **Agentic Workflow:** The AI autonomously searches the live web for real-time data, connecting Python logic to external tools.
@@ -40,4 +45,5 @@ Open app.py in IDE and find the line where the API key goes. Replace the "PASTE 
     ```bash
 
     streamlit run app.py
+
 
