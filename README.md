@@ -37,6 +37,6 @@ Open app.py in IDE and find the line where the API key goes. Replace the "PASTE 
    TAVILY_API_KEY = "PASTE YOUR OWN API KEY HERE"
 
  4. **Launch**
-   ```bash
+    ```bash
 
-   streamlit run app.py
+    streamlit run app.py
