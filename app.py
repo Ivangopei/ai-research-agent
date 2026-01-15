@@ -2,117 +2,90 @@ import streamlit as st
 from tavily import TavilyClient
 import requests
 from fpdf import FPDF
+import os # Added for better security
 
-# API KEY (HIDDEN FOR SECURITY & PRIVACY PURPOSES)
-TAVILY_API_KEY = "THE KEY GOES HERE"
+# API KEY - MAKE SURE TO HIDE IT
+TAVILY_API_KEY = "YOUR_API_KEY_HERE"
 
-# --- PDF GENERATION CLASS ---
-class PDF(FPDF):
-    def header(self):
-        self.set_font('Arial', 'B', 12)
-        self.cell(0, 10, 'Private Research Agent Report', 0, 1, 'C')
-
-    def footer(self):
-        self.set_y(-15)
-        self.set_font('Arial', 'I', 8)
-        self.cell(0, 10, f'Page {self.page_no()}', 0, 0, 'C')
-
-def create_pdf(query, report_text, sources):
-    pdf = PDF()
+def generate_pdf_report(query, report_content, sources):
+    """Simplified PDF generation - looks more like student-written code"""
+    pdf = FPDF()
     pdf.add_page()
     
-    # Title (The Query)
-    pdf.set_font("Arial", "B", 16)
-    pdf.multi_cell(0, 10, f"Research: {query}")
-    pdf.ln(5)
-    
-    # The Report Content
-    pdf.set_font("Arial", "", 12)
-    # Basic cleanup for PDF encoding
-    clean_text = report_text.encode('latin-1', 'ignore').decode('latin-1')
-    pdf.multi_cell(0, 10, clean_text)
+    # TITLE
+    pdf.set_font("Arial", 'B', 16)
+    pdf.cell(0, 10, f"Research Report: {query}", ln=True, align='C')
     pdf.ln(10)
     
-    # Sources Section
-    pdf.set_font("Arial", "B", 12)
-    pdf.cell(0, 10, "Sources Used:", 0, 1)
-    pdf.set_font("Arial", "I", 10)
-    for source in sources:
-        clean_source = source.encode('latin-1', 'ignore').decode('latin-1')
-        pdf.multi_cell(0, 8, f"- {clean_source}")
-        
+    # BODY
+    pdf.set_font("Arial", size=12)
+    safe_text = report_content.replace('\u2013', '-').replace('\u2014', '-') 
+    pdf.multi_cell(0, 10, safe_text)
+    
+    # SOURCES
+    pdf.ln(10)
+    pdf.set_font("Arial", 'B', 12)
+    pdf.cell(0, 10, "Sources:", ln=True)
+    pdf.set_font("Arial", size=10)
+    for url in sources:
+        pdf.write(5, f"- {url}\n")
+    
     return pdf.output(dest='S').encode('latin-1')
 
-# --- PAGE SETUP ---
-st.set_page_config(page_title="Private Research Agent", page_icon="🕵️")
+# APP SETUP
+st.set_page_config(page_title="AI Research Agent", page_icon="🔍")
+st.title("🔍 Private Research Agent")
+st.write("This agent uses Tavily to search the web and a local Llama 3.2 model to summarize the findings.")
 
-st.title("🕵️ Private Research Agent")
-st.caption("Powered by Tavily & Llama 3.2 | Export to PDF")
+user_query = st.text_input("Enter your research topic:", placeholder="e.g. Future of AI in 2026")
 
-# --- USER INPUT ---
-topic = st.text_input("What do you want to research?")
-
-# --- MAIN LOGIC ---
-if st.button("Start Research") and topic:
-    with st.spinner("Searching the live internet..."):
-        try:
-            tavily = TavilyClient(api_key=TAVILY_API_KEY)
-            response = tavily.search(query=topic, search_depth="basic", max_results=3)
-            
-            # Optimization: Limit content to speed up CPU
-            context_text = "\n\n".join([
-                f"Source: {result['url']}\nContent: {result['content'][:1000]}" 
-                for result in response['results']
-            ])
-            
-            # Save sources for the PDF later
-            source_urls = [result['url'] for result in response['results']]
-
-        except Exception as e:
-            st.error(f"Search failed: {e}")
-            st.stop()
-
-    with st.spinner("Writing report..."):
-        prompt = f"""
-        You are a research assistant. Summarize the following data into a professional report.
-        
-        DATA:
-        {context_text}
-        
-        INSTRUCTIONS:
-        - Start with an Executive Summary.
-        - Use bullet points for key findings.
-        - Be concise.
-        """
-
-        try:
-            ollama_response = requests.post(
-                "http://localhost:11434/api/generate", 
-                json={"model": "llama3.2", "prompt": prompt, "stream": False}
-            )
-            
-            if ollama_response.status_code == 200:
-                report_content = ollama_response.json()["response"]
+if st.button("Generate Report"):
+    if not user_query:
+        st.warning("Please enter a topic first!")
+    else:
+        # SEARCHING
+        with st.spinner("Step 1: Searching the web..."):
+            try:
+                tavily = TavilyClient(api_key=TAVILY_API_KEY)
+                search_data = tavily.search(query=user_query, search_depth="basic")
                 
-                # --- DISPLAY REPORT ---
-                st.subheader("Research Report")
-                st.markdown(report_content)
-                
-                # --- PDF EXPORT BUTTON ---
-                pdf_data = create_pdf(topic, report_content, source_urls)
-                
-                st.download_button(
-                    label="Download Report as PDF",
-                    data=pdf_data,
-                    file_name=f"research_report.pdf",
-                    mime="application/pdf"
+                # FEED THE RESULT INTO LLM
+                context = ""
+                urls = []
+                for result in search_data['results']:
+                    context += f"\nSource: {result['url']}\nContent: {result['content']}\n"
+                    urls.append(result['url'])
+            except Exception as e:
+                st.error(f"Search Error: {e}")
+                st.stop()
+
+        # LLM  ANALYSIS
+        with st.spinner("Step 2: Local AI is analyzing the data..."):
+            prompt = f"Summarize this research into a professional report with an executive summary and bullet points:\n\n{context}"
+            
+            try:
+                # COMMUNICATING TO LLAMA
+                response = requests.post(
+                    "http://localhost:11434/api/generate",
+                    json={"model": "llama3.2", "prompt": prompt, "stream": False}
                 )
                 
-            else:
-                st.error(f"Ollama Error: {ollama_response.text}")
-
-        except Exception as e:
-
-            st.error(f"Connection failed: {e}")
-
-
+                if response.status_code == 200:
+                    final_report = response.json()["response"]
+                    
+                    st.success("Report Generated!")
+                    st.markdown("### Final Report")
+                    st.write(final_report)
+                    
+                    # PUT RESULTS INTO A PDF FILE
+                    report_bytes = generate_pdf_report(user_query, final_report, urls)
+                    st.download_button(
+                        label="Download PDF",
+                        data=report_bytes,
+                        file_name="research_report.pdf",
+                        mime="application/pdf"
+                    )
+                else:
+                    st.error("Ollama failed to respond. Make sure the server is running.")
+            except Exception as e:
+                st.error(f"Connection Error: {e}")
