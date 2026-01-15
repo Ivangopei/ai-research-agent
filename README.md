@@ -25,19 +25,18 @@ This project is an AI agent made to automate market research while keeping data 
    git clone https://github.com/Ivangopei/ai-research-agent.git
    cd ai-research-agent
 
-2. **Install Dependencies**
+3. **Install Dependencies**
    ```bash
    
    pip install -r requirements.txt
 
-3. **API Key**
-   Open app.py in IDE and find the line for the Tavily API key. Replace the blank space with the API key below:
+5. **API Key**
+Open app.py in IDE and find the line for the Tavily API key. Replace the blank space with the API key below:
    ```bash
 
    TAVILY_API_KEY = "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"
  
-5. **Launch**
+7 **Launch**
    ```bash
 
    streamlit run app.py
-
