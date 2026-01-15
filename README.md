@@ -31,10 +31,10 @@ This project is an AI agent made to automate market research while keeping data 
    pip install -r requirements.txt
 
 3. **API Key**
-Open app.py in IDE and find the line for the Tavily API key. Replace the blank space with the API key below:
+Open app.py in IDE and find the line where the API key goes. Replace the "PASTE YOUR OWN API KEY HERE" with the API key you will generate for yourself:
    ```bash
 
-   TAVILY_API_KEY = "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"
+   TAVILY_API_KEY = "PASTE YOUR OWN API KEY HERE"
 
  4. **Launch**
    ```bash
