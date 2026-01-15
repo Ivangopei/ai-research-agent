@@ -1,6 +1,6 @@
-# The Private Research Agent
+# Private AI Research Agent
 
-A local-first AI Agent that automates market research. It creates a privacy-preserving pipeline by integrating the **Tavily Search API** with a locally hosted **Llama 3.2** model.
+This project is an AI agent made to automate market research while keeping data private. I built this to solve a specific problem: How can we use the power of the live web without sending sensitive research data to the cloud?A local-first AI Agent that automates market research. It creates a privacy-preserving pipeline by integrating the **Tavily Search API** with a locally hosted **Llama 3.2** model.
 
 ## Features
 * **Agentic Workflow:** The AI autonomously searches the live web for real-time data, connecting Python logic to external tools.
@@ -20,5 +20,6 @@ A local-first AI Agent that automates market research. It creates a privacy-pres
 1. **Clone the repo**
    ```bash
 
-   git clone [https://github.com/YOUR_USERNAME/private-research-agent.git](https://github.com/YOUR_USERNAME/private-research-agent.git)
+   git clone [https://github.com/Ivangopei/private-research-agent.git](https://github.com/Ivangopei/private-research-agent.git)
+
 
