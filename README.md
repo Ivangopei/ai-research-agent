@@ -35,8 +35,9 @@ Open app.py in IDE and find the line for the Tavily API key. Replace the blank s
    ```bash
 
    TAVILY_API_KEY = "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"
- 
-7 **Launch**
+
+ 6. **Launch**
    ```bash
 
    streamlit run app.py
+
