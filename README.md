@@ -10,10 +10,7 @@ As a CS student I am very interested in how AI operates under the hood. Particul
 Working on this project helped me understand how eyes are given to AI through search API and how to handle data between different services.
 
 ## Features
-* **Agentic Workflow:** The AI autonomously searches the live web for real-time data, connecting Python logic to external tools.
-* **Privacy-First Architecture:** Summarization and inference happen 100% locally on-device using Ollama. No sensitive data is sent to cloud AI providers.
-* **Automated Reporting:** Generates downloadable, professional-grade PDF research briefs using FPDF.
-* **Resource Optimization:** Optimized for consumer hardware using quantized 3B parameter models (Llama 3.2) and context trimming.
+
 
 ## Tech Stack
 * **Python 3.11** - for glueing the code.
@@ -45,5 +42,6 @@ Open app.py in IDE and find the line where the API key goes. Replace the "PASTE 
     ```bash
 
     streamlit run app.py
+
 
 
