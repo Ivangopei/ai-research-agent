@@ -1,19 +1,27 @@
 import sys
 import os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from app import create_pdf
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '.')))
+
+from app import generate_pdf_report
 
 def test_pdf_creation():
-    # 1. Setup dummy data
-    fake_query = "Test Query"
-    fake_report = "This is a test report.\nIt has two lines."
-    fake_sources = ["http://google.com", "http://example.com"]
+    # "DUMMY" DATA
+    fake_query = "Test Research Topic"
+    fake_report = "This is a simulated research report.\nIt contains multiple lines for testing."
+    fake_sources = ["https://google.com", "https://example.com"]
 
-    # 2. Run the function
-    pdf_bytes = create_pdf(fake_query, fake_report, fake_sources)
+    # CALL THE FUNCTION
+    pdf_bytes = generate_pdf_report(fake_query, fake_report, fake_sources)
 
-    # 3. Verify the result (Assert)
-    assert pdf_bytes is not None
-    assert len(pdf_bytes) > 0
-    assert b"%PDF" in pdf_bytes  # Checks if the binary data actually looks like a PDF
+    # CHECK THE RESULTS
+    assert pdf_bytes is not None, "The PDF output should not be None"
+    assert len(pdf_bytes) > 0, "The PDF output should not be empty"
+    
+    # LOOKS LIKE PDF?
+    assert b"%PDF" in pdf_bytes, "The output data does not look like a valid PDF"
+
+    print("✅ PDF Generation Test Passed!")
+
+if __name__ == "__main__":
+    test_pdf_creation()
